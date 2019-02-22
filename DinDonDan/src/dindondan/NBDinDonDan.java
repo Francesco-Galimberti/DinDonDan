@@ -21,16 +21,15 @@ import java.util.logging.Logger;
  */
 public class NBDinDonDan {
 
-
     /**
      * @brief Main per la gestione dei suoni.
      *
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-        Scanner scegli = new Scanner(System.in);
-        String interruzione;
+        BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+        Scanner scegli = new Scanner(System.in);       
+        
         System.out.println("Per terminare premere un tasto.");
         /*System.out.println("Scelta 1: solo sleep");
         System.out.println("Scelta 2: sleep + yield");
@@ -39,32 +38,31 @@ public class NBDinDonDan {
          */
         DatiCondivisi dati = new DatiCondivisi();
 
-        ThSuono th1 = new ThSuono("DIN", 3, dati);
-        ThSuono th2 = new ThSuono("DON", 3, dati);
-        ThSuono th3 = new ThSuono("DAN", 3, dati);
+        ThSuono th1 = new ThSuono("DIN", dati);
+        ThSuono th2 = new ThSuono("DON",dati);
+        ThSuono th3 = new ThSuono("DAN", dati);
         try {
             th1.start();
             th2.start();
             th3.start();
-            
-            boolean loop = true;
-            while(loop){
-                dati.printSchermo();
-                interruzione = input.readLine();
 
+            String interruzione="";
+            while (true) {
+                dati.printSchermo();
+                interruzione = console.readLine();
                 if (interruzione.equals("")) {
-                    clearConsole();
-                    loop = false;
+                    break;
                 }
             }
-            th1.interrupt();
-            th2.interrupt();
-            th3.interrupt();
-            
-            th1.join();
-            th2.join();
-            th3.join();
-            
+            if (interruzione.equals("")) {
+                th1.interrupt();
+                th2.interrupt();
+                th3.interrupt();
+            }
+
+            dati.sDinWait();
+            dati.sDonWait();
+            dati.sDanWait();
 
             System.out.println("Qual è il suono che è stato richiamato più volte?");
             System.out.println("1)DIN");
@@ -76,13 +74,14 @@ public class NBDinDonDan {
             System.out.println("DON:" + dati.getContaDON());
             System.out.println("DAN:" + dati.getContaDAN());
             System.out.println("Ci vediamo la prossima volta");
+
         } catch (IOException ex) {
             Logger.getLogger(NBDinDonDan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(NBDinDonDan.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private static void clearConsole() {
         //Clears Screen in java
         try {

@@ -1,0 +1,38 @@
+@startuml
+actor Utente
+participant main
+entity datiCondivisi
+entity ThSuono_1
+entity ThSuono_2
+entity ThSuono_3
+
+Utente -> main ++ : new
+
+main -> datiCondivisi ** : new
+main -> ThSuono_1 ** : new
+main -> ThSuono_2 ** : new
+main -> ThSuono_3 ** : new
+
+main -> ThSuono_1 ++ : start
+main -> ThSuono_2 ++ : start
+main -> ThSuono_3 ++ : start
+
+Utente -> main : stop rintocchi
+
+ThSuono_1 -> main : return
+deactivate ThSuono_1
+ThSuono_2 -> main : return
+deactivate ThSuono_2
+ThSuono_3 -> main : return
+deactivate ThSuono_3
+
+note over main : join ThSuono_1
+note over main : join ThSuono_2
+note over main : join ThSuono_3
+
+Utente -> main : campana puntata
+
+main -> datiCondivisi : datiCondivisi.verificaSeHaiVinto(scelta)
+
+main -> Utente : messaggio
+@enduml

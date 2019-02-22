@@ -18,10 +18,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ThSuono extends Thread {
 
     /**
-     * Dichiaro due varibili di tipo boolean per effettuare lo sleep e lo yield.
-     */
-    private boolean faiSleep, faiYield;
-    /**
      * Dichiaro una variabile di tipo int che servirà a scegliere se attivare
      * solo lo sleep oppure sleep+yield.
      *
@@ -44,21 +40,8 @@ public class ThSuono extends Thread {
      * @param x Gli passo il suo da eseguire
      * @param y Scelta opzione
      */
-    public ThSuono(String x, int y, DatiCondivisi p) {
+    public ThSuono(String x, DatiCondivisi p) {
         suono = x;
-        scelta = y;
-        if (scelta == 1) {
-            faiSleep = true;
-            faiYield = false;
-        }
-        if (scelta == 2) {
-            faiSleep = true;
-            faiYield = true;
-        }
-        if (scelta == 3) {
-            faiYield = true;
-            faiSleep = false;
-        }
         ptrdati = p;
     }
 
@@ -70,26 +53,17 @@ public class ThSuono extends Thread {
         boolean verify = true;
         try {
             while (verify == true) {
-                if (faiSleep == true && faiYield == false) {
-                    System.out.println(suono);
+                ptrdati.aggiungi(suono);
+                if (suono.equals("DIN")) {
+                    ptrdati.setContaDIN(ptrdati.getContaDIN() + 1);
                 }
-                if (faiYield == true && faiSleep == true) {
-                    System.out.println(suono);
-                    yield();
+                if (suono.equals("DON")) {
+                    ptrdati.setContaDON(ptrdati.getContaDON() + 1);
                 }
-                if (faiSleep == false && faiYield == true) {
-                    yield();
-                    ptrdati.aggiungi(suono);
-                    if (suono.equals("DIN")) {
-                        ptrdati.setContaDIN(ptrdati.getContaDIN() + 1);
-                    }
-                    if (suono.equals("DON")) {
-                        ptrdati.setContaDON(ptrdati.getContaDON() + 1);
-                    }
-                    if (suono.equals("DAN")) {
-                        ptrdati.setContaDAN(ptrdati.getContaDAN() + 1);
-                    }
+                if (suono.equals("DAN")) {
+                    ptrdati.setContaDAN(ptrdati.getContaDAN() + 1);
                 }
+
                 int min = 100;
                 int max = 1000;
                 int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
@@ -100,6 +74,19 @@ public class ThSuono extends Thread {
                 }
             }
         } catch (InterruptedException ex) {
+
+        }
+
+        switch (this.suono) {
+            case "DIN":
+                ptrdati.sDinSignal();
+                break;
+            case "DON":
+                ptrdati.sDonSignal();
+                break;
+            case "DAN":
+                ptrdati.sDanSignal();
+                break;
 
         }
     }
