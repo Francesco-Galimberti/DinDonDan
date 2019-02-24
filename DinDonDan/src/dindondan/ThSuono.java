@@ -76,16 +76,15 @@ public class ThSuono extends Thread {
         } catch (InterruptedException ex) {
 
         }
-
         switch (this.suono) {
             case "DIN":
-                ptrdati.sDinSignal();
+                ptrdati.signalSDin();
                 break;
             case "DON":
-                ptrdati.sDonSignal();
+                ptrdati.signalSDon();
                 break;
             case "DAN":
-                ptrdati.sDanSignal();
+                ptrdati.signalSDan();
                 break;
 
         }

@@ -42,28 +42,23 @@ public class DatiCondivisi {
         sDan = new Semaphore(0);
     }
 
-    public synchronized void sDinSignal() {
-        sDin.release();
-    }
-
-    public synchronized void sDinWait() throws InterruptedException {
+    public void waitSDin() throws InterruptedException {
         sDin.acquire();
     }
-
-    public synchronized void sDonSignal() {
-        sDon.release();
+    public void signalSDin() {
+        sDin.release();
     }
-
-    public synchronized void sDonWait() throws InterruptedException {
+    public void waitSDon() throws InterruptedException {
         sDon.acquire();
     }
-
-    public synchronized void sDanSignal() {
-        sDan.release();
+    public void signalSDon() {
+        sDon.release();
     }
-
-    public synchronized void sDanWait() throws InterruptedException {
+    public void waitSDan() throws InterruptedException {
         sDan.acquire();
+    }
+    public void signalSDan() {
+        sDan.release();
     }
 
     public synchronized int getContaDIN() {
