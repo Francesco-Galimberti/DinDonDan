@@ -5,11 +5,8 @@
  */
 package dindondan;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public class ThSuono extends Thread {
-
-    private int scelta;
+    
     private String suono;
 
     DatiCondivisi ptrDati;
@@ -24,30 +21,25 @@ public class ThSuono extends Thread {
         try {
             while (verify == true) {
 
-                //ptrDati.waitSincroVisualizza2();
-                
                 switch (this.suono) {
                     case "DIN":
                         ptrDati.waitSincro1();
-                        //ptrDati.setRintocco(suono);
-                        System.out.println(suono);
+                        continua();
                         ptrDati.signalSincro2();
                         break;
+                        
                     case "DON":
                         ptrDati.waitSincro2();
-                        //ptrDati.setRintocco(suono);
-                        System.out.println(suono);
+                        continua();
                         ptrDati.signalSincro3();
                         break;
+                        
                     case "DAN":
                         ptrDati.waitSincro3();
-                        //ptrDati.setRintocco(suono);
-                        System.out.println(suono);
+                        continua();
                         ptrDati.signalSincro1();
                         break;
                 }
-                
-                //ptrDati.signalSincroVisualizza1();
 
                 Thread.sleep((int) (Math.random() * 10));
 
@@ -68,6 +60,18 @@ public class ThSuono extends Thread {
             case "DAN":
                 ptrDati.signalSDan();
                 break;
+
+        }
+    }
+
+    public void continua() {
+        try {
+            
+            ptrDati.waitSincroVisualizza2();
+            ptrDati.setRintocco(suono);
+            ptrDati.signalSincroVisualizza1();
+            
+        } catch (InterruptedException ex) {
 
         }
     }

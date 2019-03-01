@@ -26,8 +26,8 @@ public class DatiCondivisi {
         sDon = new Semaphore(0);
         sDan = new Semaphore(0);
 
-        sincroVisualizza1 = new Semaphore(1);
-        sincroVisualizza2 = new Semaphore(0);
+        sincroVisualizza1 = new Semaphore(0);
+        sincroVisualizza2 = new Semaphore(1);
         
         sincro1 = new Semaphore(1);
         sincro2 = new Semaphore(0);
@@ -101,7 +101,7 @@ public class DatiCondivisi {
     public synchronized void setRintocco(String x) {
         rintocco = x;
     }
-    public synchronized void getRintocco() {
-        System.out.println(this.rintocco);
+    public synchronized String getRintocco() {
+        return rintocco;
     }
 }

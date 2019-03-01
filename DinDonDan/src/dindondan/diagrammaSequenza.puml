@@ -5,14 +5,21 @@ entity datiCondivisi
 entity ThSuono_1
 entity ThSuono_2
 entity ThSuono_3
+entity ThVisualizza
 
 Utente -> main ++ : new
+
+main -> Utente : messaggio 
 
 main -> datiCondivisi ** : new
 main -> ThSuono_1 ** : new
 main -> ThSuono_2 ** : new
 main -> ThSuono_3 ** : new
+main -> ThVisualizza ** : new
 
+Utente -> main : inizio rintocchi
+
+main -> ThVisualizza ++ : start
 main -> ThSuono_1 ++ : start
 main -> ThSuono_2 ++ : start
 main -> ThSuono_3 ++ : start
@@ -25,14 +32,12 @@ ThSuono_2 -> main : return
 deactivate ThSuono_2
 ThSuono_3 -> main : return
 deactivate ThSuono_3
+ThVisualizza -> main : return
+deactivate ThVisualizza
 
-note over main : join ThSuono_1
-note over main : join ThSuono_2
-note over main : join ThSuono_3
-
-Utente -> main : campana puntata
-
-main -> datiCondivisi : datiCondivisi.verificaSeHaiVinto(scelta)
+main -> datiCondivisi : datiCondivisi.waitSDin()
+main -> datiCondivisi : datiCondivisi.waitSDon()
+main -> datiCondivisi : datiCondivisi.waitSDan()
 
 main -> Utente : messaggio
 @enduml

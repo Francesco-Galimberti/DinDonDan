@@ -16,19 +16,12 @@ public class NBDinDonDan {
      */
     public static void main(String[] args) {
         BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
-        Scanner scegli = new Scanner(System.in);
         
         try {
             System.out.println("Per iniziare premere un tasto.");           
             System.out.println("Per terminare premere un tasto.");
             
-            String interruzione = "";
-            while (true) {
-                interruzione = console.readLine();
-                if (interruzione.equals("")) {
-                    break;
-                }
-            }
+            
             
             DatiCondivisi dati = new DatiCondivisi();
 
@@ -37,7 +30,15 @@ public class NBDinDonDan {
             ThSuono th3 = new ThSuono("DAN", dati);
             ThVisualizza tv = new ThVisualizza(dati);
 
-            //tv.start();
+            String interruzione = "";
+            while (true) {
+                interruzione = console.readLine();
+                if (interruzione.equals("")) {
+                    break;
+                }
+            }
+            
+            tv.start();
             th1.start();
             th2.start();
             th3.start();
@@ -57,13 +58,13 @@ public class NBDinDonDan {
             dati.waitSDin();
             dati.waitSDon();
             dati.waitSDan();
-            /*
+            
             if (ThVisualizza.currentThread().isAlive()) {
                 dati.signalSincroVisualizza1();
                 tv.interrupt();
-            }*/
+            }
 
-            System.out.println("Ci vediamo la prossima volta");
+            System.out.println("FINE");
 
         } catch (IOException | InterruptedException ex) {
             Logger.getLogger(NBDinDonDan.class.getName()).log(Level.SEVERE, null, ex);

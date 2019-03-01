@@ -1,9 +1,5 @@
 package dindondan;
 
-import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class ThVisualizza extends Thread {
 
     private DatiCondivisi ptrDati;
@@ -17,8 +13,12 @@ public class ThVisualizza extends Thread {
             while (true) {
 
                 ptrDati.waitSincroVisualizza1();
-
-                ptrDati.getRintocco();
+                
+                System.out.println(ptrDati.getRintocco());                
+                if(ptrDati.getRintocco().equals("DAN")){
+                    System.out.println();
+                }
+                
                 if (Thread.currentThread().isInterrupted()) {
                     break;
                 }
@@ -27,7 +27,7 @@ public class ThVisualizza extends Thread {
 
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(ThVisualizza.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }
 }
