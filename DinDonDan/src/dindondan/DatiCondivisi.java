@@ -7,121 +7,101 @@ package dindondan;
 
 import java.util.concurrent.Semaphore;
 
-/**
- *
- * @author Princess Joy Padua
- *
- */
 public class DatiCondivisi {
 
-    /**
-     * @author Princess Joy Padua
-     *
-     * Creo variabili di tipo int che mi vanno a contare i suoni effettuati dai
-     * thread.
-     *
-     */
-    private int contaDIN = 0;
-    private int contaDON = 0;
-    private int contaDAN = 0;
-
-    private int maxElem = 10000000;
-    private String schermo[];
-    private int p;
+    private String rintocco;
 
     private Semaphore sDin;
     private Semaphore sDon;
     private Semaphore sDan;
 
-    public DatiCondivisi() {
-        this.schermo = new String[maxElem];
-        this.p = 0;
+    private Semaphore sincro1;
+    private Semaphore sincro2;
+    private Semaphore sincro3;
+    private Semaphore sincroVisualizza1;
+    private Semaphore sincroVisualizza2;
 
+    public DatiCondivisi() {
         sDin = new Semaphore(0);
         sDon = new Semaphore(0);
         sDan = new Semaphore(0);
+
+        sincroVisualizza1 = new Semaphore(1);
+        sincroVisualizza2 = new Semaphore(0);
+        
+        sincro1 = new Semaphore(1);
+        sincro2 = new Semaphore(0);
+        sincro3 = new Semaphore(0);
+    }
+
+    public void waitSincroVisualizza1() throws InterruptedException {
+        sincroVisualizza1.acquire();
+    }
+
+    public void signalSincroVisualizza1() {
+        sincroVisualizza1.release();
+    }
+
+    public void waitSincroVisualizza2() throws InterruptedException {
+        sincroVisualizza2.acquire();
+    }
+
+    public void signalSincroVisualizza2() {
+        sincroVisualizza2.release();
+    }
+
+    public void waitSincro1() throws InterruptedException {
+        sincro1.acquire();
+    }
+
+    public void signalSincro1() {
+        sincro1.release();
+    }
+
+    public void waitSincro2() throws InterruptedException {
+        sincro2.acquire();
+    }
+
+    public void signalSincro2() {
+        sincro2.release();
+    }
+
+    public void waitSincro3() throws InterruptedException {
+        sincro3.acquire();
+    }
+
+    public void signalSincro3() {
+        sincro3.release();
     }
 
     public void waitSDin() throws InterruptedException {
         sDin.acquire();
     }
+
     public void signalSDin() {
         sDin.release();
     }
+
     public void waitSDon() throws InterruptedException {
         sDon.acquire();
     }
+
     public void signalSDon() {
         sDon.release();
     }
+
     public void waitSDan() throws InterruptedException {
         sDan.acquire();
     }
+
     public void signalSDan() {
         sDan.release();
     }
 
-    public synchronized int getContaDIN() {
-        return contaDIN;
+    public synchronized void setRintocco(String x) {
+        rintocco = x;
     }
-
-    public synchronized void setContaDIN(int contaDIN) {
-        this.contaDIN = contaDIN;
-    }
-
-    public synchronized int getContaDON() {
-        return contaDON;
-    }
-
-    public synchronized void setContaDON(int contaDON) {
-        this.contaDON = contaDON;
-    }
-
-    public synchronized int getContaDAN() {
-        return contaDAN;
-    }
-
-    public synchronized void setContaDAN(int contaDAN) {
-        this.contaDAN = contaDAN;
-    }
-
-    /**
-     *
-     * @param c Indico la scelta effettuata dall'untete fatta nel main
-     *
-     * @return indica se hai vinto o no.
-     *
-     */
-    public synchronized String verificaSeHaiVinto(int c) {
-        String x = "Hai Perso";
-        if (c == 1 && contaDIN > contaDON && contaDIN > contaDAN) {
-            x = "Hai Vinto!";
-        }
-        if (c == 2 && contaDON > contaDIN && contaDON > contaDAN) {
-            x = "Hai Vinto!";
-        }
-        if (c == 3 && contaDAN > contaDON && contaDAN > contaDON) {
-            x = "Hai Vinto!";
-        }
-        return x;
-    }
-
-    public synchronized void aggiungi(String x) {
-        if (p >= maxElem) {
-            p = 0;
-        }
-        schermo[p] = x;
-        p += 1;
-    }
-
-    public synchronized void printSchermo() {
-        System.out.println("-------------------------------");
-        for (int i = 0; i < p; i++) {
-            System.out.print(schermo[i] + " ");
-            if (i % 20 == 19) {
-                System.out.println("");
-            }
-        }
-        System.out.println("\n-------------------------------");
+    public synchronized void getRintocco() {
+        System.out.println(this.rintocco);
     }
 }
