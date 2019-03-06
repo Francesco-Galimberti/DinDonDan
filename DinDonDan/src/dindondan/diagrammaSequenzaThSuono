@@ -1,0 +1,80 @@
+@startuml
+actor Utente
+participant main
+entity ThSuono_1
+entity ThSuono_2
+entity ThSuono_3
+entity ThVisualizza
+entity datiCondivisi
+
+Utente -> main ++ : new
+
+main -> datiCondivisi ** : new
+main -> ThSuono_1 ** : new
+main -> ThSuono_2 ** : new
+main -> ThSuono_3 ** : new
+main -> ThVisualizza ** : new
+
+Utente -> main : inizio rintocchi
+
+main -> ThVisualizza ++ : start
+main -> ThSuono_1 ++ : start
+main -> ThSuono_2 ++ : start
+main -> ThSuono_3 ++ : start
+
+ThVisualizza -> datiCondivisi : datiCondivisi.waitSincroVisualizza1()
+
+ThSuono_1 -> datiCondivisi : datiCondivisi.waitSincro1()
+ThSuono_2 -> datiCondivisi : datiCondivisi.waitSincro2()
+ThSuono_3 -> datiCondivisi : datiCondivisi.waitSincro3()
+
+ThSuono_1 -> datiCondivisi : datiCondivisi.waitSincroVisualizza2()
+ThSuono_1 -> datiCondivisi : datiCondivisi.setRintocco(suono)
+ThSuono_1 -> datiCondivisi : datiCondivisi.signalSincroVisualizza1()
+
+ThVisualizza -> Utente : datiCondivisi.getRintocco()
+ThVisualizza -> datiCondivisi : datiCondivisi.signalSincroVisualizza2()
+ThVisualizza -> datiCondivisi : datiCondivisi.waitSincroVisualizza1()
+
+ThSuono_1 -> datiCondivisi : datiCondivisi.signalSincro2()
+ThSuono_1 -> datiCondivisi : datiCondivisi.waitSincro1()
+
+ThSuono_2 -> datiCondivisi : datiCondivisi.waitSincroVisualizza2()
+ThSuono_2 -> datiCondivisi : datiCondivisi.setRintocco(suono)
+ThSuono_2 -> datiCondivisi : datiCondivisi.signalSincroVisualizza1()
+
+ThVisualizza -> Utente : datiCondivisi.getRintocco()
+ThVisualizza -> datiCondivisi : datiCondivisi.signalSincroVisualizza2()
+ThVisualizza -> datiCondivisi : datiCondivisi.waitSincroVisualizza1()
+
+ThSuono_2 -> datiCondivisi : datiCondivisi.signalSincro3()
+ThSuono_2 -> datiCondivisi : datiCondivisi.waitSincro2()
+
+ThSuono_3 -> datiCondivisi : datiCondivisi.waitSincroVisualizza2()
+ThSuono_3 -> datiCondivisi : datiCondivisi.setRintocco(suono)
+ThSuono_3 -> datiCondivisi : datiCondivisi.signalSincroVisualizza1()
+
+ThVisualizza -> Utente : datiCondivisi.getRintocco()
+ThVisualizza -> datiCondivisi : datiCondivisi.signalSincroVisualizza2()
+ThVisualizza -> datiCondivisi : datiCondivisi.waitSincroVisualizza1()
+
+ThSuono_3 -> datiCondivisi : datiCondivisi.signalSincro1()
+ThSuono_3 -> datiCondivisi : datiCondivisi.waitSincro3()
+
+Utente -> main : stop rintocchi
+
+ThSuono_1 -> main : return
+deactivate ThSuono_1
+ThSuono_2 -> main : return
+deactivate ThSuono_2
+ThSuono_3 -> main : return
+deactivate ThSuono_3
+ThVisualizza -> main : return
+deactivate ThVisualizza
+
+main -> datiCondivisi : datiCondivisi.waitThSuono_1()
+main -> datiCondivisi : datiCondivisi.waitThSuono_2()
+main -> datiCondivisi : datiCondivisi.waitThSuono_3()
+
+main -> Utente : messaggio
+@enduml
